@@ -25,16 +25,72 @@
 write_matrix:
 
     # Prologue
+	addi sp, sp, -24
+    sw s0, 0(sp)
+    sw s1, 4(sp)
+    sw s2, 8(sp)
+    sw s3, 12(sp)
+    sw s4, 16(sp)
+    sw ra, 20(sp)
+    mv s0, a0 # pointer to string representing the filename
+    mv s1, a1 # pointer to the start of the matrix in memory
+    mv s2, a2 # number of rows in the matrix
+    mv s3, a3 # number of columns in the matrix
+    
+    # Open file
+    mv a1, s0
+    li a2, 1
+    jal fopen
+    li t0, -1
+    beq a0, t0, fopen_error
+    mv s4, a0 # the file descriptor
 
+    # Write rows and cols
+    addi sp, sp, -8
+    sw s2, 0(sp)
+    sw s3, 4(sp)
+    mv a1, s4
+    mv a2, sp
+    li a3, 2
+    li a4, 4
+    jal fwrite
+    li t0, 2
+    bne a0, t0, fwrite_error
+    addi sp, sp, 8
+    
+    # Write all elements
+    mv a1, s4
+    mv a2, s1
+    mul a3, s2, s3
+    li a4, 4
+    jal fwrite
+    mul t0, s2, s3
+    bne a0, t0, fwrite_error
 
-
-
-
-
-
-
+    # Close file
+    mv a1, s4
+    jal fclose
+    bnez a0, fclose_error
 
     # Epilogue
-
-
+    lw s0, 0(sp)
+    lw s1, 4(sp)
+    lw s2, 8(sp)
+    lw s3, 12(sp)
+    lw s4, 16(sp)
+    lw ra, 20(sp)
+    addi sp, sp, 24
+    
     ret
+    
+fopen_error:
+    li a1, 93
+    j exit2
+    
+fwrite_error:
+    li a1, 94
+    j exit2
+    
+fclose_error:
+    li a1, 95
+    j exit2

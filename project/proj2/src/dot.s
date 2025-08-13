@@ -18,27 +18,38 @@
 #   this function terminates the program with error code 76.
 # =======================================================
 dot:
-
+    blez a2, length_error
+    blez a3, stride_error
+    blez a4, stride_error
+    j start
+length_error:
+    li a1, 75
+    j exit2
+stride_error:
+    li a1, 76
+    j exit2
+    
+start:
     # Prologue
 
-
+    li t0, 0
+    li t4, 0
+    slli a3, a3, 2
+    slli a4, a4, 2
+    j loop_end
 loop_start:
-
-
-
-
-
-
-
-
-
-
-
+    lw t1, 0(a0)
+    lw t2, 0(a1)
+    mul t3, t1, t2
+    add t0, t0, t3
+    add a0, a0, a3
+    add a1, a1, a4
+    addi t4, t4, 1
 
 loop_end:
-
-
+    blt t4, a2, loop_start
+    mv a0, t0
     # Epilogue
-
+    
     
     ret
