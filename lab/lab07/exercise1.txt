@@ -1,24 +1,24 @@
 Scenario 1
-    1.
-    2.
-    3.
+    1. Step Size, Block Size
+    2. 0.0
+    3. Step Size, 4
 
 Scenario 2
-    1.
-    2.
-    3.
+    1. 2
+    2. MHHH
+    3. 1.0
 
 Scenario 3
-    1.
-    2.
-    3.
-    4.
-    5.
+    1. 0.50, 0.00, 0.33
+    2. 32, 16
+    3. 16
+    4. Rep Count
+    5. =, =, +, =
 
 --- lines below are ignored by the AG ---
 
 Checkoff Question 1:
-Checkoff Question 2:
+Checkoff Question 2: Step Size, Array Size
 Checkoff Question 3:
 Checkoff Question 4:
 Checkoff Question 5:
